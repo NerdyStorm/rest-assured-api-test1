@@ -36,6 +36,10 @@ public class GetRequestTest {
 			response4 = RestAssured.given()
 					.header("Authorization", "Bearer ca953c93d148c0749bf162a5164437f92ffb5aa4104021adfba4276703add443")
 					.header("content-type", "application/json").get(BaseUrl + "orders/V1gIR59uZ4UtofAfNKs9T");
+		} else if (option.equalsIgnoreCase("get all")) {
+			response4 = RestAssured.given()
+					.header("Authorization", "Bearer ca953c93d148c0749bf162a5164437f92ffb5aa4104021adfba4276703add443")
+					.header("content-type", "application/json").get(BaseUrl + "orders/");
 		} else if (option.equalsIgnoreCase("register")) {
 			String registrationBody = "{\"clientName\": \"Nerdy's Desktop\", \"clientEmail\": \"nerdy@example.com\" }";
 			response3 = RestAssured.given().header("content-type",
@@ -44,7 +48,13 @@ public class GetRequestTest {
 			String body = "{\"customerName\": \"Nerdy\" }";
 			response4 = RestAssured.given()
 					.header("Authorization", "Bearer ca953c93d148c0749bf162a5164437f92ffb5aa4104021adfba4276703add443")
-					.header("content-type", "application/json").body(body).patch(BaseUrl + "orders/V1gIR59uZ4UtofAfNKs9T");
+					.header("content-type", "application/json").body(body)
+					.patch(BaseUrl + "orders/V1gIR59uZ4UtofAfNKs9T");
+		} else if (option.equalsIgnoreCase("delete")) {
+			response4 = RestAssured.given()
+					.header("Authorization", "Bearer ca953c93d148c0749bf162a5164437f92ffb5aa4104021adfba4276703add443")
+					.header("content-type", "application/json")
+					.delete(BaseUrl + "orders/V1gIR59uZ4UtofAfNKs9T");
 		}
 
 	}
@@ -65,8 +75,10 @@ public class GetRequestTest {
 
 		// response1 = RestAssured.given().get(BaseUrl + "books/1").andReturn();
 		// response1.getBody().prettyPrint();
-		RequestToApi("update");
+		RequestToApi("get all");
 		response4.getBody().prettyPrint();
+		LOG.info("" + response4.getStatusCode());
+		Assert.assertEquals(response4.getStatusCode(), 200, "failed!!");
 
 		// LOG.info("Step - 3 : Assert StatusCode = 200");
 		// Assert.assertEquals(response.getStatusCode(), 200, "http status code");
