@@ -21,20 +21,14 @@ public class GetRequestTest {
 	Response response4;
 	Response response5;
 
-	/** @apiNote Registers the API CLIENT */
-	public void registerClient() {
-		String registrationBody = "{\"clientName\": \"Nerdy's Desktop\", \"clientEmail\": \"nerdy@example.com\" }";
-		response3 = RestAssured.given().header("content-type",
-				"application/json").body(registrationBody).post(BaseUrl + "api-clients").andReturn();
-	}
-
-	/** @apiNote Posting data to API 
-	 *  @param option Specifies the type of request
-	*/
+	/**
+	 * @apiNote Posting data to API
+	 * @param option Specifies the type of request
+	 */
 	public void RequestToApi(String option) {
-		String body = "{\"bookId\": 1, \"customerName\": \"John\" }";
 
 		if (option.equalsIgnoreCase("post")) {
+			String body = "{\"bookId\": 1, \"customerName\": \"John\" }";
 			response4 = RestAssured.given()
 					.header("Authorization", "Bearer ca953c93d148c0749bf162a5164437f92ffb5aa4104021adfba4276703add443")
 					.header("content-type", "application/json").body(body).post(BaseUrl + "orders/");
@@ -42,6 +36,15 @@ public class GetRequestTest {
 			response4 = RestAssured.given()
 					.header("Authorization", "Bearer ca953c93d148c0749bf162a5164437f92ffb5aa4104021adfba4276703add443")
 					.header("content-type", "application/json").get(BaseUrl + "orders/V1gIR59uZ4UtofAfNKs9T");
+		} else if (option.equalsIgnoreCase("register")) {
+			String registrationBody = "{\"clientName\": \"Nerdy's Desktop\", \"clientEmail\": \"nerdy@example.com\" }";
+			response3 = RestAssured.given().header("content-type",
+					"application/json").body(registrationBody).post(BaseUrl + "api-clients").andReturn();
+		} else if (option.equalsIgnoreCase("update")) {
+			String body = "{\"customerName\": \"Nerdy\" }";
+			response4 = RestAssured.given()
+					.header("Authorization", "Bearer ca953c93d148c0749bf162a5164437f92ffb5aa4104021adfba4276703add443")
+					.header("content-type", "application/json").body(body).patch(BaseUrl + "orders/V1gIR59uZ4UtofAfNKs9T");
 		}
 
 	}
@@ -62,7 +65,7 @@ public class GetRequestTest {
 
 		// response1 = RestAssured.given().get(BaseUrl + "books/1").andReturn();
 		// response1.getBody().prettyPrint();
-		RequestToApi("get");
+		RequestToApi("update");
 		response4.getBody().prettyPrint();
 
 		// LOG.info("Step - 3 : Assert StatusCode = 200");
